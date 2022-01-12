@@ -11,12 +11,10 @@ public class Main {
         Company company = new Company();
         company.setId(1);
         company.setName("Biomet");
-        company.setFoundationDate(LocalDate.of(2017, 12, 8));
 
         CompanyDAO.saveCompany(company);
 
-        List<Company> companies = Arrays.asList(new Company(2, "Etap", LocalDate.of(2018, 2, 4)), new Company(3, "TransT",
-                LocalDate.of(2021, 8, 6)));
+        List<Company> companies = Arrays.asList(new Company(2, "Etap"), new Company(3, "TransT"));
 
         CompanyDAO.saveCompanies(companies);
 
@@ -87,7 +85,7 @@ public class Main {
         System.out.println("\n\n\n============Sort and filter transportations by destination=============\n\n\n");
         System.out.println("""
                 Transportations are compared first by the name of the starting point(town),
-                 then compared by the name of the ending point(town) 
+                 then compared by the name of the ending point(town)
 
                 """);
         TransportationDAO.sortTransportationOrderByDestination(transportations);
@@ -230,5 +228,5 @@ public class Main {
         vehicles.stream().forEach(System.out::println);
         System.out.println("\n\n");
 
-    }
+   }
 }

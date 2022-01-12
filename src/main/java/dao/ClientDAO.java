@@ -2,6 +2,7 @@ package dao;
 
 import configuration.SessionFactoryUtil;
 import entity.Client;
+import entity.Company;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -19,7 +20,15 @@ public class ClientDAO {
     public static void saveClients(List<Client> clientList) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            clientList.forEach(session::save);
+            clientList.stream().forEach(client -> session.save(client));
+            transaction.commit();
+        }
+    }
+
+    public static void saveOrUpdateClient(Client client){
+        try (Session session = configuration.SessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.saveOrUpdate(client);
             transaction.commit();
         }
     }

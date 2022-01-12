@@ -1,0 +1,10 @@
+
+
+                                   DATA FOR TRANSPORTATIONS
+
+
+Transportation{id=1, starting_point='Sofia', ending_point='Burgas', starting_date=2018-08-20, ending_date=2018-08-27, typeOfLoad=1, price=428.00, company=Company{id=1, name='Biomet', foundationDate=2017-12-07}}
+Transportation{id=2, starting_point='Varna', ending_point='Sofia', starting_date=2020-08-24, ending_date=2020-09-24, typeOfLoad=1, price=75.00, company=Company{id=2, name='Etap', foundationDate=2018-02-03}}
+Transportation{id=3, starting_point='Ruse', ending_point='Plovdiv', starting_date=2021-12-08, ending_date=2022-01-07, typeOfLoad=2, price=589.00, company=Company{id=3, name='TransT', foundationDate=2021-08-05}}
+Transportation{id=4, starting_point='Svoge', ending_point='Varna', starting_date=2021-03-16, ending_date=2022-07-02, typeOfLoad=1, price=1289.00, company=Company{id=1, name='Biomet', foundationDate=2017-12-07}}
+Transportation{id=5, starting_point='Varna', ending_point='Burgas', starting_date=2021-09-06, ending_date=2021-09-11, typeOfLoad=1, price=1720.00, company=Company{id=1, name='Biomet', foundationDate=2017-12-07}}

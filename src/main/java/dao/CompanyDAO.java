@@ -1,7 +1,7 @@
 package dao;
 
 import configuration.SessionFactoryUtil;
-import entity.Company;;
+import entity.Company;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
@@ -10,7 +10,9 @@ import java.util.stream.Stream;
 public class CompanyDAO {
 
     /** ===== CRUD =====*/
-    /**C - create */
+    /**1.Въвеждане, редактиране и изтриване на транспортна компания,
+     * която извършва транспортни услуги и в която са наети служители
+     * */
     public static void saveCompany(Company company){
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()){
             Transaction transaction = session.beginTransaction();
@@ -22,14 +24,22 @@ public class CompanyDAO {
     public static void saveCompanies(List<Company> companyList) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            companyList.forEach(session::save);
+            companyList.stream().forEach((company -> session.save(company)));
+            transaction.commit();
+        }
+    }
+
+    public static void saveOrUpdateCompany(Company company){
+        try (Session session = configuration.SessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.saveOrUpdate(company);
             transaction.commit();
         }
     }
 
     public static List<Company> readCompanies() {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT a FROM Company a", Company.class).getResultList();
+            return session.createQuery("SELECT a FROM Company a", entity.Company.class).getResultList();
         }
     }
 

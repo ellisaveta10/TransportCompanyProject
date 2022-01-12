@@ -26,7 +26,15 @@ public class TransportationDAO {
     public static void saveTransportations(List<Transportation> transportationList) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            transportationList.forEach(session::save);
+            transportationList.stream().forEach(transportation -> session.save(transportation));
+            transaction.commit();
+        }
+    }
+
+    public static void saveOrUpdateCompany(Transportation transportation){
+        try (Session session = configuration.SessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.saveOrUpdate(transportation);
             transaction.commit();
         }
     }

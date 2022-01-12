@@ -1,6 +1,7 @@
 package dao;
 
 import configuration.SessionFactoryUtil;
+import entity.Company;
 import entity.Vehicle;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,7 +20,7 @@ public class VehicleDAO {
     public static void saveVehicles(List<Vehicle> vehicleList) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            vehicleList.forEach(session::save);
+            vehicleList.stream().forEach(vehicle -> session.save(vehicle));
             transaction.commit();
         }
     }
@@ -27,6 +28,14 @@ public class VehicleDAO {
     public static List<Vehicle> readVehicles() {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             return session.createQuery("SELECT a FROM Vehicle a", Vehicle.class).getResultList();
+        }
+    }
+
+    public static void saveOrUpdateVehicle(Vehicle vehicle){
+        try (Session session = configuration.SessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.saveOrUpdate(vehicle);
+            transaction.commit();
         }
     }
 

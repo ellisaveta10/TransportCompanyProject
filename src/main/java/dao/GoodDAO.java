@@ -1,8 +1,10 @@
 package dao;
 
 import configuration.SessionFactoryUtil;
+import entity.Company;
 import entity.Employee;
 import entity.Good;
+import entity.Transportation;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -20,6 +22,22 @@ public class GoodDAO {
     public static List<Good> readGoods() {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             return session.createQuery("SELECT a FROM Good a", Good.class).getResultList();
+        }
+    }
+
+    public static void saveGoods(List<Good> goodList) {
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            goodList.stream().forEach(good -> session.save(good));
+            transaction.commit();
+        }
+    }
+
+    public static void saveOrUpdateGood(Good good){
+        try (Session session = configuration.SessionFactoryUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.saveOrUpdate(good);
+            transaction.commit();
         }
     }
 

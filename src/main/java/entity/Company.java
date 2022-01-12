@@ -30,8 +30,8 @@ public class Company implements Comparable<Company>{
     //@ElementCollection(fetch = EAGER)
     private List<Transportation> transportationList;
 
-    @Column(name="foundation_date", nullable = false)
-    private LocalDate foundationDate;
+    //@Column(name="foundation_date", nullable = false)
+    //private LocalDate foundationDate;
 
     public Company() {
     }
@@ -41,18 +41,11 @@ public class Company implements Comparable<Company>{
         this.name = name;
     }
 
-    public Company(long id, String name, LocalDate foundationDate) {
-        this.id = id;
-        this.name = name;
-        this.foundationDate = foundationDate;
-    }
-
-    public Company(long id, String name, List<Vehicle> vehicleList, Set<Employee> employeeList, LocalDate foundationDate) {
+    public Company(long id, String name, List<Vehicle> vehicleList, Set<Employee> employeeList) {
         this.id = id;
         this.name = name;
         this.vehicleList = vehicleList;
         this.employeeList = employeeList;
-        this.foundationDate = foundationDate;
     }
 
     public long getId() {
@@ -103,20 +96,12 @@ public class Company implements Comparable<Company>{
         this.transportationList = transportationList;
     }
 
-    public LocalDate getFoundationDate() {
-        return foundationDate;
-    }
-
-    public void setFoundationDate(LocalDate foundationDate) {
-        this.foundationDate = foundationDate;
-    }
 
     @Override
     public String toString() {
         return "Company{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", foundationDate=" + foundationDate +
                 '}';
     }
 
