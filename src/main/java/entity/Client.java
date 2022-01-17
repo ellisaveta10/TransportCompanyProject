@@ -2,7 +2,6 @@ package entity;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "client")
@@ -17,7 +16,7 @@ public class Client {
     @ManyToMany(mappedBy = "clients")
     private List<Company> companies;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Transportation transportation;
 
     @Column(name = "is_transportation_paid", nullable = false)
@@ -54,6 +53,29 @@ public class Client {
         this.name = name;
     }
 
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
+    }
+
+    public Transportation getTransportation() {
+        return transportation;
+    }
+
+    public void setTransportation(Transportation transportation) {
+        this.transportation = transportation;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
 
     @Override
     public String toString() {

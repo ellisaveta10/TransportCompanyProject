@@ -11,9 +11,10 @@ public class Vehicle {
     private long id;
 
     @Column(name="type_of_vehicle", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TypeOfVehicle typeOfVehicle;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Company company;
 
     public Vehicle() {
@@ -44,6 +45,14 @@ public class Vehicle {
 
     public void setTypeOfVehicle(TypeOfVehicle typeOfVehicle) {
         this.typeOfVehicle = typeOfVehicle;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         /** company */
         Company company = new Company();
         company.setId(1);
@@ -21,8 +21,9 @@ public class Main {
         companies = CompanyDAO.readCompanies();
 
         /** 7-a: sort by name and incomes */
+        companies = CompanyDAO.sortCompaniesByNameAndIncomes();
         System.out.println("\n\n--------------------- Sort companies by name and incomes --------------------\n");
-        CompanyDAO.sortCompaniesByNameAndIncomes(companies);
+        companies.stream().forEach(System.out::println);
         System.out.println("\n\n");
 
         Employee asen = new Employee(1, "Asen", TypeOfQualification.FLAMMABLE, BigDecimal.valueOf(1200.), company);
@@ -41,14 +42,17 @@ public class Main {
         EmployeeDAO.saveEmployee(maria);
 
         employees = EmployeeDAO.readEmployees();
+
+        //CompanyDAO.getCompanyEmployeesDTO(1).stream().forEach(System.out::println);
+        /** 7-b: sort employees by their qualification and salary */
+        employees = EmployeeDAO.sortEmployeeByQualificationAndSalary();
         System.out.println("\n           ============= Employees ============\n");
         System.out.println("""
-                Qualifications are compared by their natural order,
+                Qualifications are compared by their first letter,
                  salaries are compared from the biggest to the smallest for the same qualification
 
                 """);
-        /** 7-b: sort employees by their qualification and salary */
-        EmployeeDAO.sortEmployeeByQualificationAndSalary(employees);
+        employees.stream().forEach(System.out::println);
         System.out.println("\n\n");
 
 
@@ -72,23 +76,30 @@ public class Main {
 
         TransportationDAO.saveTransportations(transportations);
 
-        Transportation transportation3 = new Transportation(5, "Varna", "Burgas", LocalDate.of(2021, 9, 7),
+        Transportation transportation5 = new Transportation(5, "Varna", "Burgas", LocalDate.of(2021, 9, 7),
                 LocalDate.of(2021, 9, 12), 1, BigDecimal.valueOf(1720), company, ivo);
 
-        TransportationDAO.saveTransportation(transportation3);
+        TransportationDAO.saveTransportation(transportation5);
 
 
         transportations = TransportationDAO.readTransportations();
 
+        //EmployeeDAO.getEmployeeTransportationsDTO(1).stream().forEach(System.out::println);
+
+        //CompanyDAO.getCompanyTransportationsDTO(1).stream().forEach(System.out::println);
+
 
         /** Task 7: c) - sort and filter by destination */
+
+        transportations = TransportationDAO.sortTransportationOrderByDestination();
+
         System.out.println("\n\n\n============Sort and filter transportations by destination=============\n\n\n");
         System.out.println("""
                 Transportations are compared first by the name of the starting point(town),
                  then compared by the name of the ending point(town)
 
                 """);
-        TransportationDAO.sortTransportationOrderByDestination(transportations);
+        transportations.stream().forEach(System.out::println);
 
         /** 8 - save data from transportations then show it in the console */
 
@@ -106,14 +117,13 @@ public class Main {
             System.out.println("File not found " + e);
         } catch (IOException e) {
             System.out.println("IOException " + e);
-        } finally {
-            try {
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException e) {
-                System.out.println(e);
+        }
+        try {
+            if (writer != null) {
+                writer.close();
             }
+        } catch (IOException e) {
+            System.out.println(e);
         }
 
 
@@ -173,37 +183,36 @@ public class Main {
         Client georgi = new Client(2, "Georgi", transportation2, false);
         ClientDAO.saveClient(georgi);
 
-        Client stefan = new Client(3, "Stefan", transportation3, true);
+        Client stefan = new Client(3, "Stefan", transportation5, true);
         ClientDAO.saveClient(stefan);
 
-        List<Client> clients = new ArrayList<>();
-        clients.add(ivan);
-        clients.add(georgi);
-        clients.add(stefan);
+        List<Client> clients = Arrays.asList(new Client(4, "Darina", transportation2, true),
+        new Client(5, "Simona", transportation1, false));
+
+        ClientDAO.saveClients(clients);
 
         clients = ClientDAO.readClients();
         System.out.println("\n ============ Clients =========== \n");
         clients.stream().forEach(System.out::println);
         System.out.println("\n\n");
 
+        //TransportationDAO.getTransportationClientsDTO(1).stream().forEach(System.out::println);
+
         Good good1 = new Good(1, "water", BigDecimal.valueOf(500), transportation1);
         GoodDAO.saveGood(good1);
 
-        Good good2 = new Good(2, "milk", BigDecimal.valueOf(256), transportation3);
-        GoodDAO.saveGood(good2);
-
-        Good good3 = new Good(3, "fruits", BigDecimal.valueOf(450), transportation1);
-        GoodDAO.saveGood(good3);
-
-        List<Good> goods = new ArrayList<>();
-        goods.add(good1);
-        goods.add(good2);
-        goods.add(good3);
+        List<Good> goods = Arrays.asList(new Good(2, "milk", BigDecimal.valueOf(250), transportation2),
+                new Good(3, "fruits", BigDecimal.valueOf(450), transportation5),
+                new Good(4, "bread", BigDecimal.valueOf(502), transportation2),
+                new Good(5, "paper", BigDecimal.valueOf(710), transportation1));
+        GoodDAO.saveGoods(goods);
 
         goods = GoodDAO.readGoods();
         System.out.println("\n ============ Goods =========== \n");
         goods.stream().forEach(System.out::println);
         System.out.println("\n\n");
+
+        //TransportationDAO.getTransportationGoodDTO(1).stream().forEach(System.out::println);
 
         Vehicle vehicle1 = new Vehicle(1, TypeOfVehicle.BUS, company);
         VehicleDAO.saveVehicle(vehicle1);
@@ -217,16 +226,17 @@ public class Main {
         Vehicle vehicle4 = new Vehicle(4, TypeOfVehicle.CISTERN, companies.get(2));
         VehicleDAO.saveVehicle(vehicle4);
 
-        List<Vehicle> vehicles = new ArrayList<>();
-        vehicles.add(vehicle1);
-        vehicles.add(vehicle2);
-        vehicles.add(vehicle2);
-        vehicles.add(vehicle2);
+        List<Vehicle> vehicles = Arrays.asList(new Vehicle(5, TypeOfVehicle.BUS, company),
+                new Vehicle(6, TypeOfVehicle.CISTERN, companies.get(1)));
+
+        VehicleDAO.saveVehicles(vehicles);
 
         vehicles = VehicleDAO.readVehicles();
         System.out.println("\n ============ Vehicles =========== \n");
         vehicles.stream().forEach(System.out::println);
         System.out.println("\n\n");
+
+        //CompanyDAO.getCompanyVehiclesDTO(1).stream().forEach(System.out::println);
 
    }
 }

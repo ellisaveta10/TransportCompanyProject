@@ -1,14 +1,13 @@
 package entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "company")
-public class Company implements Comparable<Company>{
+public class Company{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +26,8 @@ public class Company implements Comparable<Company>{
     private Set<Client> clients;
 
     @OneToMany (mappedBy = "company")
-    //@ElementCollection(fetch = EAGER)
     private List<Transportation> transportationList;
 
-    //@Column(name="foundation_date", nullable = false)
-    //private LocalDate foundationDate;
 
     public Company() {
     }
@@ -105,7 +101,7 @@ public class Company implements Comparable<Company>{
                 '}';
     }
 
-    @Override
+    /*@Override
     public int compareTo(Company company) {
         return this.name.compareTo(company.name);
     }
@@ -115,5 +111,5 @@ public class Company implements Comparable<Company>{
         public int compare(Company o1, Company o2) {
             return o1.name.compareTo(o2.name);
         }
-    };
+    };*/
 }

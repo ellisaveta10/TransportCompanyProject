@@ -39,7 +39,7 @@ public class Transportation implements Comparable<Transportation>{
     @Column(name = "price")
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Company company;
 
     @OneToMany(mappedBy = "transportation")
@@ -48,33 +48,11 @@ public class Transportation implements Comparable<Transportation>{
     @OneToMany(mappedBy = "transportation")
     private List<Client> clients;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Employee employee;
 
 
     public Transportation() {
-    }
-
-    public Transportation(long id, String starting_point, String ending_point,
-                          LocalDate starting_date, LocalDate ending_date, long typeOfLoad) {
-        this.id = id;
-        this.starting_point = starting_point;
-        this.ending_point = ending_point;
-        this.starting_date = starting_date;
-        this.ending_date = ending_date;
-        this.typeOfLoad = typeOfLoad;
-    }
-
-    public Transportation(long id, String starting_point, String ending_point,
-                          LocalDate starting_date, LocalDate ending_date, long typeOfLoad, Company company, Employee employee) {
-        this.id = id;
-        this.starting_point = starting_point;
-        this.ending_point = ending_point;
-        this.starting_date = starting_date;
-        this.ending_date = ending_date;
-        this.typeOfLoad = typeOfLoad;
-        this.company = company;
-        this.employee = employee;
     }
 
     public Transportation(long id, String starting_point, String ending_point, LocalDate starting_date,
@@ -165,11 +143,8 @@ public class Transportation implements Comparable<Transportation>{
                 ", ending_date=" + ending_date +
                 ", typeOfLoad=" + typeOfLoad +
                 ", price=" + price +
-                ", company=" + company +
                 '}';
     }
-
-
 
     @Override
     public int compareTo(Transportation transportation) {

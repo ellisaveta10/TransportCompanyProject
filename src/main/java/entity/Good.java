@@ -17,7 +17,8 @@ public class Good {
     @Column(name = "weight", nullable = false)
     private BigDecimal weight;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
+    //@ManyToOne
     private Transportation transportation;
 
     public Good() {

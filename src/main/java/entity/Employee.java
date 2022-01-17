@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "employee")
-public class Employee implements Comparable<Employee>{
+public class Employee{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,12 +16,13 @@ public class Employee implements Comparable<Employee>{
     private String name;
 
     @Column(name="type_of_qualification", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TypeOfQualification typeOfQualification;
 
     @Column(name="salary")
     private BigDecimal salary;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Company company;
 
     @OneToMany (mappedBy = "employee")
@@ -85,6 +86,8 @@ public class Employee implements Comparable<Employee>{
         this.company = company;
     }
 
+
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -92,11 +95,10 @@ public class Employee implements Comparable<Employee>{
                 ", name='" + name + '\'' +
                 ", typeOfQualification=" + typeOfQualification +
                 ", salary=" + salary +
-                ", company=" + company +
                 '}';
     }
 
-    @Override
+    /*@Override
     public int compareTo(Employee employee) {
         return this.typeOfQualification.compareTo(employee.typeOfQualification);
     }
@@ -113,5 +115,5 @@ public class Employee implements Comparable<Employee>{
         public int compare(Employee employee1, Employee employee2) {
             return employee1.salary.compareTo(employee2.salary);
         }
-    };
+    };*/
 }
