@@ -1,6 +1,9 @@
 package entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -10,10 +13,14 @@ import java.util.Set;
 public class Company{
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name="name", nullable = false)
+    @NotBlank(message = "Company name cannot be blank!")
+    @Size(max = 20, message = "Company name has to be with up to 20 characters!")
+    @Pattern(regexp = "^([A-Z]).*", message = "Company name has to start with capital letter!")
     private String name;
 
     @OneToMany(mappedBy = "company")

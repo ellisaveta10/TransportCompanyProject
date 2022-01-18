@@ -1,26 +1,33 @@
 package entity;
 
 import javax.persistence.*;
-import java.io.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 
 @Entity
 @Table(name = "transportation")
-public class Transportation implements Comparable<Transportation>{
+public class Transportation{
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "starting_point")
+    @NotBlank(message = "Transportation starting point cannot be blank!")
+    @Size(max = 20, message = "Transportation starting point has to be with up to 20 characters!")
+    @Pattern(regexp = "^([A-Z]).*", message = "Transportation starting point has to start with capital letter!")
+    @Column(name = "starting_point", nullable = false)
     private String starting_point;
 
-    @Column(name = "ending_point")
+    @NotBlank(message = "Transportation ending point cannot be blank!")
+    @Size(max = 20, message = "Transportation ending point has to be with up to 20 characters!")
+    @Pattern(regexp = "^([A-Z]).*", message = "Transportation ending point has to start with capital letter!")
+    @Column(name = "ending_point", nullable = false)
     private String ending_point;
 
+    @PastOrPresent(message = "Starting date must be in the past or in the present")
     @Column(name = "starting_date")
     private LocalDate starting_date;
 
@@ -31,12 +38,14 @@ public class Transportation implements Comparable<Transportation>{
      * 1 - хора
      * 2 - стока
      * */
-    //@Basic
-    //@Enumerated(EnumType.STRING)
     @Column(name = "type_of_load", nullable = false)
     private long typeOfLoad;
 
-    @Column(name = "price")
+    @Positive
+    @DecimalMin(value = "100.00", message = "Price has to be more than or equal to 100.00", inclusive = true)
+    @DecimalMax(value = "900.00", message = "Price has to be less than or equal to 900.00")
+    @Digits(integer = 3, fraction = 2, message = "Price has to be with 3 digits before and 2 digits after the decimal separator!")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @ManyToOne (fetch = FetchType.LAZY)
@@ -133,6 +142,30 @@ public class Transportation implements Comparable<Transportation>{
         this.company = company;
     }
 
+    public List<Good> getGoods() {
+        return goods;
+    }
+
+    public void setGoods(List<Good> goods) {
+        this.goods = goods;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public String toString() {
         return "Transportation{" +
@@ -146,56 +179,4 @@ public class Transportation implements Comparable<Transportation>{
                 '}';
     }
 
-    @Override
-    public int compareTo(Transportation transportation) {
-        return this.starting_point.compareTo(transportation.starting_point);
-    }
-
-    public static Comparator<Transportation> CompareByDestinationStartingPoint =
-            new Comparator<Transportation>() {
-                @Override
-                public int compare(Transportation t1, Transportation t2) {
-                    return t1.starting_point.compareTo(t2.starting_point);
-                }
-            };
-
-    public static Comparator<Transportation> CompareByDestinationEndingPoint =
-            new Comparator<Transportation>() {
-                @Override
-                public int compare(Transportation t1, Transportation t2) {
-                    return t1.ending_point.compareTo(t2.ending_point);
-                }
-            };
-
-    public void writeInfoForTransportations(String filename){
-        FileWriter fout = null;
-        try{
-            fout = new FileWriter((filename), true);
-            fout.append(toString()).append(System.lineSeparator());
-        }catch(FileNotFoundException e){
-            System.out.println("File not found " + e);
-        } catch (IOException e) {
-            System.out.println("IOException " + e);
-        } finally {
-            try {
-                if (fout != null) {
-                    fout.close();
-                }
-            } catch (IOException exception) {
-                System.out.println(exception);
-            }
-        }
-    }
-
-    public static void readInfoForTransportations(String inputFile) {
-        String currLine = null;
-        try (FileReader fis = new FileReader(new File(inputFile))) {
-            BufferedReader bufferedReader = new BufferedReader(fis);
-            while ((currLine = bufferedReader.readLine()) != null) {
-                System.out.println(currLine);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -58,26 +58,26 @@ public class Main {
 
         Transportation transportation1 = new Transportation(1, "Sofia", "Burgas",
                 LocalDate.of(2018, 8, 21), LocalDate.of(2018, 8, 28), 1,
-                BigDecimal.valueOf(428), company, asen);
+                BigDecimal.valueOf(428.00), company, asen);
 
         TransportationDAO.saveTransportation(transportation1);
 
         Transportation transportation2 = new Transportation(4, "Varna", "Sofia",
                 LocalDate.of(2020, 8, 25), LocalDate.of(2020, 9, 25), 1,
-                BigDecimal.valueOf(75), companies.get(1), ana);
+                BigDecimal.valueOf(750.00), companies.get(1), ana);
 
         TransportationDAO.saveTransportation(transportation2);
 
         List<Transportation> transportations = Arrays.asList(new Transportation(2, "Ruse", "Plovdiv",
                         LocalDate.of(2021, 12, 9), LocalDate.of(2022, 1, 8), 2,
-                        BigDecimal.valueOf(589), companies.get(companies.size() - 1), maria),
+                        BigDecimal.valueOf(589.00), companies.get(companies.size() - 1), maria),
                 new Transportation(3, "Svoge", "Varna", LocalDate.of(2021, 3, 17),
-                        LocalDate.of(2022, 7, 3), 1, BigDecimal.valueOf(1289), companies.get(0), maria));
+                        LocalDate.of(2022, 7, 3), 1, BigDecimal.valueOf(289.00), companies.get(0), maria));
 
         TransportationDAO.saveTransportations(transportations);
 
         Transportation transportation5 = new Transportation(5, "Varna", "Burgas", LocalDate.of(2021, 9, 7),
-                LocalDate.of(2021, 9, 12), 1, BigDecimal.valueOf(1720), company, ivo);
+                LocalDate.of(2021, 9, 12), 1, BigDecimal.valueOf(720.00), company, ivo);
 
         TransportationDAO.saveTransportation(transportation5);
 
@@ -198,13 +198,13 @@ public class Main {
 
         //TransportationDAO.getTransportationClientsDTO(1).stream().forEach(System.out::println);
 
-        Good good1 = new Good(1, "water", BigDecimal.valueOf(500), transportation1);
+        Good good1 = new Good(1, "water", BigDecimal.valueOf(500.00), transportation1);
         GoodDAO.saveGood(good1);
 
-        List<Good> goods = Arrays.asList(new Good(2, "milk", BigDecimal.valueOf(250), transportation2),
-                new Good(3, "fruits", BigDecimal.valueOf(450), transportation5),
-                new Good(4, "bread", BigDecimal.valueOf(502), transportation2),
-                new Good(5, "paper", BigDecimal.valueOf(710), transportation1));
+        List<Good> goods = Arrays.asList(new Good(2, "milk", BigDecimal.valueOf(250.00), transportation2),
+                new Good(3, "fruits", BigDecimal.valueOf(450.00), transportation5),
+                new Good(4, "bread", BigDecimal.valueOf(502.00), transportation2),
+                new Good(5, "paper", BigDecimal.valueOf(710.00), transportation1));
         GoodDAO.saveGoods(goods);
 
         goods = GoodDAO.readGoods();

@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -8,17 +9,24 @@ import java.util.List;
 @Table(name = "good")
 public class Good {
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Good name cannot be blank!")
+    @Size(max = 20, message = "Good name has to be with up to 20 characters!")
+    @Pattern(regexp = "^([a-z]).*", message = "Good name has to start with non-capital letter!")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Positive
+    @DecimalMin(value = "100.00", message = "Good weight has to be more than or equal to 100.00", inclusive = true)
+    @DecimalMax(value = "900.00", message = "Good weight has to be less than or equal to 1000.00")
+    @Digits(integer = 3, fraction = 2, message = "Good weight has to be with 3 digits before and 2 digits after the decimal separator!")
     @Column(name = "weight", nullable = false)
     private BigDecimal weight;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    //@ManyToOne
     private Transportation transportation;
 
     public Good() {
@@ -59,6 +67,14 @@ public class Good {
 
     public void setWeight(BigDecimal weight) {
         this.weight = weight;
+    }
+
+    public Transportation getTransportation() {
+        return transportation;
+    }
+
+    public void setTransportation(Transportation transportation) {
+        this.transportation = transportation;
     }
 
     @Override

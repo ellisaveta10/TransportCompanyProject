@@ -1,17 +1,21 @@
 package entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
-import java.util.Comparator;
 import java.util.List;
 
 @Entity
 @Table(name = "employee")
 public class Employee{
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Employee name cannot be blank!")
+    @Size(max = 15, message = "Employee name has to be with up to 15 characters!")
+    @Pattern(regexp = "^([A-Z]).*", message = "Employee name has to start with capital letter!")
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -19,7 +23,11 @@ public class Employee{
     @Enumerated(EnumType.STRING)
     private TypeOfQualification typeOfQualification;
 
-    @Column(name="salary")
+    @Positive
+    @Digits(integer = 4, fraction = 2, message = "Salary has to be with 4 digits before and 2 digits after the decimal separator")
+    @DecimalMin(value = "1000.00", message = "Salary has to be more than or equal to 1000.00", inclusive = true)
+    @DecimalMax(value = "2000.00", message = "Salary has to be less than or equal to 2000.00")
+    @Column(name="salary", nullable = false)
     private BigDecimal salary;
 
     @ManyToOne (fetch = FetchType.LAZY)
@@ -86,7 +94,13 @@ public class Employee{
         this.company = company;
     }
 
+    public List<Transportation> getTransportationList() {
+        return transportationList;
+    }
 
+    public void setTransportationList(List<Transportation> transportationList) {
+        this.transportationList = transportationList;
+    }
 
     @Override
     public String toString() {
@@ -98,22 +112,4 @@ public class Employee{
                 '}';
     }
 
-    /*@Override
-    public int compareTo(Employee employee) {
-        return this.typeOfQualification.compareTo(employee.typeOfQualification);
-    }
-
-    public static Comparator<Employee> CompareByQualification = new Comparator<Employee>() {
-        @Override
-        public int compare(Employee e1, Employee e2) {
-            return e1.typeOfQualification.compareTo(e2.typeOfQualification);
-        }
-    };
-
-    public static Comparator<Employee> CompareBySalary = new Comparator<Employee>() {
-        @Override
-        public int compare(Employee employee1, Employee employee2) {
-            return employee1.salary.compareTo(employee2.salary);
-        }
-    };*/
 }
