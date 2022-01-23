@@ -5,8 +5,6 @@ import dto.EmployeeDTO;
 import dto.TransportationDTO;
 import dto.VehicleDTO;
 import entity.Company;
-import entity.Employee;
-import entity.Vehicle;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -15,14 +13,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class CompanyDAO {
 
-    /** ===== CRUD =====*/
-    /**1.Въвеждане, редактиране и изтриване на транспортна компания,
-     * която извършва транспортни услуги и в която са наети служители
-     * */
     public static void saveCompany(Company company){
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()){
             Transaction transaction = session.beginTransaction();
@@ -118,13 +111,6 @@ public class CompanyDAO {
             transaction.commit();
         }
     }
-
-    /*public static void sortCompaniesByNameAndIncomes(List<Company> companyList){
-        Stream<Company> companyStream = companyList.stream();
-        companyStream
-                .sorted(Company.sortByName)
-                .forEach(System.out::println);
-    }*/
 
     public static List<Company> sortCompaniesByNameAndIncomes(){
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()){

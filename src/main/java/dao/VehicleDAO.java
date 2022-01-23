@@ -1,7 +1,6 @@
 package dao;
 
 import configuration.SessionFactoryUtil;
-import entity.Company;
 import entity.Vehicle;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

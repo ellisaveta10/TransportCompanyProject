@@ -39,6 +39,11 @@ public class Employee{
     public Employee() {
     }
 
+    public Employee(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Employee(long id, String name, TypeOfQualification typeOfQualification, Company company) {
         this.id = id;
         this.name = name;

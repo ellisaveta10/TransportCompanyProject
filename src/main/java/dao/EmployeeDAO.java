@@ -1,11 +1,8 @@
 package dao;
 
 import configuration.SessionFactoryUtil;
-import dto.EmployeeDTO;
 import dto.TransportationDTO;
-import entity.Company;
 import entity.Employee;
-import entity.Transportation;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -14,7 +11,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class EmployeeDAO {
     public static void saveEmployee(Employee employee){
@@ -82,14 +78,6 @@ public class EmployeeDAO {
     }
 
     /** 7-b: sort by qualification and salary */
-
-    /*public static void sortEmployeeByQualificationAndSalary(List<Employee> employeeList){
-        Stream<Employee> employeeStream = employeeList.stream();
-        employeeStream
-                .sorted(Employee.CompareByQualification
-                        .thenComparing(Employee.CompareBySalary.reversed()))
-                .forEach(System.out::println);
-    }*/
 
     public static List<Employee> sortEmployeeByQualificationAndSalary(){
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()){

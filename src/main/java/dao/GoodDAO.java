@@ -1,10 +1,7 @@
 package dao;
 
 import configuration.SessionFactoryUtil;
-import entity.Company;
-import entity.Employee;
 import entity.Good;
-import entity.Transportation;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

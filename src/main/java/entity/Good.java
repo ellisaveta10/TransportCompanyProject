@@ -3,7 +3,6 @@ package entity;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "good")

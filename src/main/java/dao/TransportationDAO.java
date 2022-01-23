@@ -2,7 +2,6 @@ package dao;
 
 import configuration.SessionFactoryUtil;
 import dto.ClientDTO;
-import dto.EmployeeDTO;
 import dto.GoodDTO;
 import entity.Company;
 import entity.Employee;
@@ -14,9 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class TransportationDAO {
     public static void saveTransportation(Transportation transportation) {
@@ -35,7 +32,7 @@ public class TransportationDAO {
         }
     }
 
-    public static void saveOrUpdateCompany(Transportation transportation){
+    public static void saveOrUpdateTransportation(Transportation transportation){
         try (Session session = configuration.SessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.saveOrUpdate(transportation);
@@ -100,12 +97,6 @@ public class TransportationDAO {
     }
 
     /** 7-c: sort by destination */
-    /*public static void sortTransportationOrderByDestination(List<Transportation> transportationList) {
-        Stream<Transportation> transportationStream = transportationList.stream();
-        transportationStream.sorted(Transportation.CompareByDestinationStartingPoint.
-                        thenComparing(Transportation.CompareByDestinationEndingPoint))
-                .forEach(System.out::println);
-    }*/
 
     public static List<Transportation> sortTransportationOrderByDestination(){
         try(Session session = SessionFactoryUtil.getSessionFactory().openSession()){
